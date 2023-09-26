@@ -1,0 +1,9 @@
+port: 8080 #启动端口
+dsn: host=localhost user=bit101 password=BIT101 dbname=shoppingcart port=5432 sslmode=disable TimeZone=Asia/Shanghai #数据库源
+key: "SHOPPINGCART" #加密密钥
+login_expire: 2073600 #登录有效期 单位秒
+good_page_size: 24 #每次加载good数量
+main_url: https://localhost
+release_mode: true #是否为部署模式 开启后不显示DEBUG信息
+saver: #文件保存相关
+  max_size: 24 #最大上传大小 单位MB
