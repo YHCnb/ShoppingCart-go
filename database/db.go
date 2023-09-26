@@ -35,8 +35,8 @@ type GoodInfo struct {
 
 // GoodItem 商品记录
 type GoodItem struct {
-	ID  uint `json:"id" binding:"required`
-	Num int  `json:"number" binding:"required`
+	ID  uint `json:"id"`
+	Num int  `json:"number"`
 }
 
 // 详细商品记录
