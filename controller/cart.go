@@ -37,6 +37,7 @@ func AddGood(c *gin.Context) {
 	// 遍历queries
 	for i := 0; i < len(queries); i++ {
 		var flag bool
+		fmt.Println("len(goods)", len(goods))
 		for j := 0; j < len(goods); j++ {
 			if goods[j].GoodInfo.Id == queries[i].ID {
 				goods[j].Num += queries[i].Num
@@ -44,6 +45,7 @@ func AddGood(c *gin.Context) {
 				break
 			}
 		}
+		fmt.Println("len(goods)", len(goods))
 		if !flag {
 			var good database.GoodInfo
 			database.DB.First(&good, queries[i].ID)
@@ -52,7 +54,6 @@ func AddGood(c *gin.Context) {
 				return
 			}
 			goods = append(goods, database.GoodInfoItem{GoodInfo: good, Num: queries[i].Num})
-			return
 		}
 	}
 	cart.Goods = database.GoodsToJson(goods)

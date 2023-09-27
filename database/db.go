@@ -39,7 +39,7 @@ type GoodItem struct {
 	Num int  `json:"number"`
 }
 
-// 详细商品记录
+// GoodInfoItem 详细商品记录
 type GoodInfoItem struct {
 	GoodInfo GoodInfo `json:"good"`
 	Num      int      `json:"number"`
@@ -62,6 +62,10 @@ type Order struct {
 
 // GoodsToJson GoodInfoItems转Json
 func GoodsToJson(goods []GoodInfoItem) string {
+	if len(goods) == 0 {
+		return "[]"
+	}
+
 	var goodsItems []GoodItem
 	for i := 0; i < len(goods); i++ {
 		goodsItems = append(goodsItems, GoodItem{
@@ -79,10 +83,13 @@ func GoodsToJson(goods []GoodInfoItem) string {
 // JsonToGoods Json转GoodInfoItems
 func JsonToGoods(goodsJSON string) []GoodInfoItem {
 	var goodsItems []GoodItem
+	var goods []GoodInfoItem
+	if goodsJSON == "[]" {
+		return goods
+	}
 	if err := json.Unmarshal([]byte(goodsJSON), &goodsItems); err != nil {
 		panic(err)
 	}
-	var goods []GoodInfoItem
 	for i := 0; i < len(goodsItems); i++ {
 		var good GoodInfo
 		DB.First(&good, goodsItems[i].ID)

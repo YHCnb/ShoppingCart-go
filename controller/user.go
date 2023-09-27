@@ -29,6 +29,10 @@ func Login(c *gin.Context) {
 	}
 	user := database.User{}
 	database.DB.Where("username = ?", loginRequest.Username).First(&user)
+	if user.Sid == 0 {
+		c.JSON(400, gin.H{"msg": "无此用户"})
+		return
+	}
 	if user.Password == loginRequest.Password {
 		token := jwt.GetUserToken(fmt.Sprint(user.Sid), config.Config.LoginExpire, config.Config.Key, user.Level == 0)
 		fmt.Println("token", token)
