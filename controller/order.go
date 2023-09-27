@@ -31,12 +31,13 @@ func DoOrder(c *gin.Context) {
 		var flag bool
 		for j := 0; j < len(cartGoods); j++ {
 			if cartGoods[j].GoodInfo.Id == queries[i].ID {
+				orderGoods = append(orderGoods, database.GoodInfoItem{GoodInfo: cartGoods[j].GoodInfo, Num: queries[i].Num})
+				total += cartGoods[j].GoodInfo.Price * float64(queries[i].Num)
+
 				cartGoods[j].Num -= queries[i].Num
 				if cartGoods[j].Num <= 0 {
 					cartGoods = append(cartGoods[:j], cartGoods[j+1:]...)
 				}
-				orderGoods = append(orderGoods, database.GoodInfoItem{GoodInfo: cartGoods[j].GoodInfo, Num: queries[i].Num})
-				total += cartGoods[j].GoodInfo.Price * float64(queries[i].Num)
 
 				flag = true
 				break
@@ -61,10 +62,10 @@ func DoOrder(c *gin.Context) {
 }
 
 type OrderResponse struct {
-	ID    uint
-	Goods []database.GoodInfoItem
-	Price float64
-	Time  time.Time
+	ID    uint                    `json:"id"`
+	Goods []database.GoodInfoItem `json:"goods"`
+	Price float64                 `json:"price"`
+	Time  time.Time               `json:"time"`
 }
 
 // OrderList 获取历史Order列表
